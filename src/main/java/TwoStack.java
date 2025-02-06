@@ -42,10 +42,33 @@ public class TwoStack {
     public double evaluate(String s){
         String[] tokens = s.split(" ");
        
-        //Loop over the tokens until you reach the end of the expression
-        //TODO
-
-        
+        // Loop over the tokens until you reach the end of the expression
+        for (String token : tokens){
+            if (token.equals("(")) {
+            // Ignore opening parentheses
+            } else if (token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")) {
+                ops.push(token);
+            } else if (token.equals(")")) {
+                // Perform calculation for the top operator
+                String op = ops.pop();
+                if (op.equals("+")) {
+                    vals.push(vals.pop() + vals.pop());
+                } else if (op.equals("-")) {
+                    double b = vals.pop();
+                    double a = vals.pop();
+                    vals.push(a - b);
+                } else if (op.equals("*")) {
+                    vals.push(vals.pop() * vals.pop());
+                } else if (op.equals("/")) {
+                    double b = vals.pop();
+                    double a = vals.pop();
+                    vals.push(a / b);
+                }
+            } else {
+                // Parse numbers and push onto vals stack
+                vals.push(Double.parseDouble(token));
+            }
+        }
 
 
         return vals.pop();
